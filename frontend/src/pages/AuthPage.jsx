@@ -47,7 +47,7 @@ export default function AuthPage() {
           username: form.username,
           password: form.password,
         });
-        toast.success('Admin account created! Please sign in.');
+        toast.success('User account created! Please sign in.');
         setTab('login');
         setForm({ username: form.username, password: '', confirm: '' });
       }
@@ -75,7 +75,7 @@ export default function AuthPage() {
           <Tabs
             tabs={[
               { id: 'login', label: 'Sign In' },
-              { id: 'register', label: 'Create Admin' },
+              { id: 'register', label: 'Create User' },
             ]}
             activeTab={tab}
             onChange={(t) => {
@@ -133,14 +133,14 @@ export default function AuthPage() {
             )}
 
             <Button type="submit" loading={loading} className="w-full mt-2">
-              <span>{tab === 'login' ? 'Sign In' : 'Create Admin Account'}</span>
+              <span>{tab === 'login' ? 'Sign In' : 'Create User Account'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </form>
 
           {/* Quick Demo Hint */}
           <div className="p-2.5 rounded-lg bg-dark-900 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Demo Admin Credentials:</span>
+            <span>Demo User Credentials:</span>
             <span className="font-mono text-brand-400">admin / admin123</span>
           </div>
         </div>

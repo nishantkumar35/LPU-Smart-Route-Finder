@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
  * ProtectedRoute — guards routes that require authentication.
  * Always renders children — the parent (App.jsx) is responsible for providing them.
  *
- * @param {boolean}   adminOnly  If true, also checks that user.role === 'admin'
+ * @param {boolean}   adminOnly  If true, also checks that the user has admin role
  * @param {ReactNode} children   The page/layout to render when authorized
  */
 export default function ProtectedRoute({ children, adminOnly = false }) {
