@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, Search, LogOut, Shield, User, Activity } from 'lucide-react';
+import { Navigation, Search, LogOut, Shield, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import Button from '../ui/Button';
 import api from '../../api/axios';
 
 export default function Header({ onOpenSearch }) {
@@ -18,68 +17,82 @@ export default function Header({ onOpenSearch }) {
     return () => { cancelled = true; };
   }, []);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const handleLogout = () => { logout(); navigate('/login'); };
+
+  // Initials avatar
+  const initials = user?.username?.slice(0, 2).toUpperCase() || '??';
 
   return (
-    <header className="h-13 bg-dark-900 border-b border-slate-800/80 px-4 flex items-center justify-between shrink-0 select-none z-20">
-      {/* Brand Logo */}
-      <div className="flex items-center gap-2.5">
-        <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-sm">
-          <Map className="w-4 h-4" />
+    <header className="h-14 bg-dark-900 border-b border-dark-700/80 px-4 flex items-center justify-between shrink-0 select-none z-20">
+
+      {/* ── Brand ─────────────────────────────────────── */}
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center shadow-glow-amber/60 shrink-0">
+          <Navigation className="w-4 h-4 text-white" />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col leading-none">
           <span className="font-bold text-sm text-slate-100 tracking-tight">SmartRoute</span>
-          <span className="text-[10px] font-medium uppercase tracking-widest px-1.5 py-0.5 rounded bg-dark-800 border border-slate-800 text-slate-400">
-            LPU Studio
-          </span>
+          <span className="text-[10px] text-slate-500 font-medium tracking-wider">LPU Campus</span>
         </div>
+        {/* Visual divider */}
+        <div className="h-5 w-px bg-dark-700 ml-1 hidden sm:block" />
       </div>
 
-      {/* Center Search Trigger (Linear style) */}
+      {/* ── Center search ─────────────────────────────── */}
       <button
         onClick={onOpenSearch}
-        className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-lg bg-dark-800 border border-slate-800 text-xs text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all duration-150 w-72"
+        id="header-search-trigger"
+        className="hidden md:flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-dark-800 border border-dark-700 text-xs text-slate-500 hover:text-slate-300 hover:border-dark-600 hover:bg-dark-750 transition-all duration-150 w-64 group"
       >
-        <Search className="w-3.5 h-3.5 text-slate-500" />
+        <Search className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" />
         <span className="flex-1 text-left">Search locations...</span>
-        <kbd className="font-mono text-[10px] bg-dark-900 px-1.5 py-0.5 rounded text-slate-500 border border-slate-800">
+        <kbd className="font-mono text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-md text-slate-600 border border-dark-600">
           ⌘K
         </kbd>
       </button>
 
-      {/* Right Controls */}
-      <div className="flex items-center gap-3">
-        {/* API Health */}
-        <div className="flex items-center gap-1.5 text-xs">
-          <div className={`w-2 h-2 rounded-full ${health === true ? 'bg-emerald-400' : health === false ? 'bg-rose-400' : 'bg-amber-400 animate-pulse'}`} />
-          <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
-            {health === true ? 'API Online' : health === false ? 'Offline' : 'Connecting'}
+      {/* ── Right section ─────────────────────────────── */}
+      <div className="flex items-center gap-2.5">
+
+        {/* API status */}
+        <div className="hidden sm:flex items-center gap-1.5">
+          <div className={`w-1.5 h-1.5 rounded-full ${
+            health === true  ? 'bg-teal-400' :
+            health === false ? 'bg-rose-500' :
+                               'bg-amber-400 animate-pulse'
+          }`} />
+          <span className="text-[11px] text-slate-500 font-medium">
+            {health === true ? 'Online' : health === false ? 'Offline' : 'Connecting'}
           </span>
         </div>
 
-        <div className="h-4 w-px bg-slate-800 hidden sm:block" />
+        <div className="h-4 w-px bg-dark-700 hidden sm:block" />
 
-        {/* User profile */}
+        {/* User info */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 text-xs text-slate-300">
-            {isAdmin ? <Shield className="w-3.5 h-3.5 text-brand-400" /> : <User className="w-3.5 h-3.5 text-slate-400" />}
-            <span className="font-medium truncate max-w-[100px]">{user?.username}</span>
+          {/* Initials avatar */}
+          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0 ${
+            isAdmin ? 'bg-brand-600' : 'bg-dark-600'
+          }`}>
+            {isAdmin ? <Shield className="w-3.5 h-3.5" /> : initials}
           </div>
-
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLogout}
-            icon={LogOut}
-            title="Sign Out"
-            className="text-slate-400 hover:text-rose-400"
-          >
-            <span className="hidden sm:inline">Logout</span>
-          </Button>
+          <div className="hidden sm:flex flex-col leading-none">
+            <span className="text-xs font-semibold text-slate-200 max-w-[100px] truncate">{user?.username}</span>
+            <span className="text-[10px] text-slate-600">{isAdmin ? 'Administrator' : 'Viewer'}</span>
+          </div>
         </div>
+
+        <div className="h-4 w-px bg-dark-700" />
+
+        {/* Logout */}
+        <button
+          onClick={handleLogout}
+          title="Sign Out"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/8 transition-all duration-150 text-xs font-medium"
+        >
+          <LogOut className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Logout</span>
+        </button>
       </div>
     </header>
   );

@@ -12,29 +12,26 @@ const Input = forwardRef(({
   return (
     <div className={`space-y-1.5 ${containerClassName}`}>
       {label && (
-        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
-          {label}
-        </label>
+        <label className="ui-label">{label}</label>
       )}
       <div className="relative flex items-center">
         {Icon && (
-          <Icon className="absolute left-3 w-4 h-4 text-slate-500 pointer-events-none" />
+          <Icon className="absolute left-3.5 w-4 h-4 text-slate-600 pointer-events-none" />
         )}
         <input
           ref={ref}
-          className={`ui-input ${Icon ? 'pl-9' : ''} ${error ? 'border-rose-500/80 focus:ring-rose-500' : ''} ${className}`}
+          className={`ui-input ${Icon ? 'pl-10' : ''} ${error ? 'border-rose-500/70 focus:ring-rose-500/20 focus:border-rose-500/70' : ''} ${className}`}
           {...props}
         />
       </div>
       {error ? (
-        <p className="text-xs text-rose-400 font-medium">{error}</p>
+        <p className="text-xs text-rose-400">{error}</p>
       ) : helperText ? (
-        <p className="text-xs text-slate-500">{helperText}</p>
+        <p className="text-xs text-slate-600">{helperText}</p>
       ) : null}
     </div>
   );
 });
 
 Input.displayName = 'Input';
-
 export default Input;

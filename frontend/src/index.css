@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,9 +7,9 @@
 @layer base {
   * {
     box-sizing: border-box;
-    border-color: rgba(51, 65, 85, 0.4);
+    border-color: rgba(30, 40, 63, 0.7);
   }
-  
+
   html, body {
     height: 100%;
     margin: 0;
@@ -18,90 +18,122 @@
   }
 
   body {
-    @apply bg-dark-900 text-slate-100 font-sans antialiased selection:bg-brand-500/30 selection:text-brand-400;
-    background: #090d16;
+    @apply bg-dark-950 text-slate-100 font-sans antialiased;
+    background: #08091a;
+    selection-color: rgba(245, 158, 11, 0.35);
+    -webkit-selection-color: rgba(245, 158, 11, 0.35);
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+  ::selection {
+    background: rgba(245, 158, 11, 0.25);
+    color: #fbbf24;
   }
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
+  /* Warmer custom scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
+    background: rgba(30, 40, 63, 0.8);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(40, 54, 79, 0.9);
   }
 }
 
 @layer components {
-  /* Minimal card container */
+
+  /* ── Base card ──────────────────────────────────────── */
   .ui-card {
-    @apply bg-dark-800 border border-slate-800/80 rounded-xl shadow-subtle;
+    @apply bg-dark-800 border border-dark-700 rounded-xl;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    background: linear-gradient(135deg, #131729 0%, #121628 100%);
   }
 
   .ui-card-interactive {
-    @apply ui-card hover:border-slate-700 hover:bg-dark-750 transition-all duration-150;
+    @apply ui-card hover:border-dark-600 transition-all duration-150 cursor-pointer;
   }
 
-  /* Input styles */
+  /* Card with left amber accent bar */
+  .ui-card-accent {
+    @apply ui-card relative overflow-hidden;
+  }
+  .ui-card-accent::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-0 w-0.5 bg-brand-500 rounded-l-xl;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+  }
+
+  /* ── Inputs ─────────────────────────────────────────── */
   .ui-input {
-    @apply w-full bg-dark-900 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 
-           focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply w-full bg-dark-900/80 border border-dark-700 rounded-xl px-4 py-2.5 text-sm text-slate-100
+           placeholder-slate-600 focus:outline-none focus:border-brand-500/60
+           focus:ring-1 focus:ring-brand-500/25 transition-all duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .ui-select {
-    @apply ui-input pr-8 appearance-none bg-no-repeat;
+    @apply ui-input pr-8 appearance-none cursor-pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
   }
 
-  /* Leaflet Map overrides */
+  /* ── Section label ──────────────────────────────────── */
+  .ui-label {
+    @apply block text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1.5;
+  }
+
+  /* ── Stat number ────────────────────────────────────── */
+  .ui-stat-number {
+    @apply text-3xl font-bold text-slate-100 leading-none;
+  }
+
+  /* ── Leaflet Map overrides ──────────────────────────── */
   .leaflet-container {
     background: #06080e !important;
     font-family: 'Inter', sans-serif;
   }
 
   .leaflet-popup-content-wrapper {
-    background: #0d111c !important;
-    border: 1px solid #1e293b !important;
-    border-radius: 10px !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+    background: #0f1228 !important;
+    border: 1px solid #1e283f !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7) !important;
     color: #e2e8f0 !important;
     padding: 2px !important;
   }
 
   .leaflet-popup-content {
     margin: 10px 14px !important;
-    line-height: 1.4 !important;
+    line-height: 1.5 !important;
   }
 
   .leaflet-popup-tip {
-    background: #0d111c !important;
-    border: 1px solid #1e293b !important;
+    background: #0f1228 !important;
+    border: 1px solid #1e283f !important;
   }
 
   .leaflet-control-zoom {
-    border: 1px solid #1e293b !important;
-    border-radius: 8px !important;
+    border: 1px solid #1e283f !important;
+    border-radius: 10px !important;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
   }
 
   .leaflet-control-zoom a {
-    background: #0d111c !important;
+    background: #0f1228 !important;
     color: #94a3b8 !important;
-    border-bottom: 1px solid #1e293b !important;
+    border-bottom: 1px solid #1e283f !important;
     transition: all 0.15s ease !important;
   }
 
   .leaflet-control-zoom a:hover {
-    background: #1e293b !important;
+    background: #192035 !important;
     color: #f1f5f9 !important;
   }
 
   .leaflet-tile {
-    filter: brightness(0.7) contrast(1.1) saturate(0.2) hue-rotate(200deg);
+    filter: brightness(0.65) contrast(1.15) saturate(0.15) hue-rotate(210deg);
   }
 }
